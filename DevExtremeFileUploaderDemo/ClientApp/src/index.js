@@ -6,14 +6,8 @@ import * as serviceWorker from './serviceWorker';
 
 import 'devextreme/dist/css/dx.common.css';
 import 'devextreme/dist/css/dx.light.compact.css';
-import 'devextreme/dist/css/dx.carmine.css';
-
-import "devextreme-intl";
-import ptMessages from 'devextreme/localization/messages/pt.json';
-import { locale, loadMessages } from 'devextreme/localization';
-
-loadMessages(ptMessages);
-locale("pt-BR");
+// import 'devextreme/dist/css/dx.carmine.css';
+import 'devextreme/dist/css/dx.material.orange.light.css';
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
