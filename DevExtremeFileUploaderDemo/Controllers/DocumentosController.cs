@@ -58,8 +58,7 @@ namespace DevExtremeFileUploaderDemo.Controllers
     }
 
     [HttpPost("{empresaId}/{chunkMetadata}")]
-    public ActionResult Post(Int32 empresaId, string chunkMetadata, IFormFile file)
-    {
+      public ActionResult Post(Int32 empresaId, string chunkMetadata, IFormFile file) {
       JObject json = null;
       try
       {
@@ -71,11 +70,18 @@ namespace DevExtremeFileUploaderDemo.Controllers
         if (metaDataObject.FileName == null)
           return Ok();
 
-        var tempFilePath = Path.Combine(path, metaDataObject.FileName + ".tmp");
-        AppendContentToFile(tempFilePath, file);
+        var tempFile = Path.Combine(path, metaDataObject.FileName + ".tmp");
+        if (metaDataObject.BytesLoaded == 0)
+          if (System.IO.File.Exists(tempFile))
+            System.IO.File.Delete(tempFile);
 
-        if (metaDataObject.BytesLoaded == metaDataObject.BytesTotal)
-          ProcessUploadedFile(tempFilePath, metaDataObject.FileName);
+        AppendContentToFile(tempFile, file);
+
+        if (metaDataObject.BytesLoaded + metaDataObject.SegmentSize == metaDataObject.BytesTotal)
+        {
+          string finalFilename = Path.Combine(path, metaDataObject.FileName);
+          ProcessUploadedFile(tempFile, finalFilename);
+        }
 
         string filename = metaDataObject.FileName;
         json = JObject.FromObject(new
@@ -109,18 +115,19 @@ namespace DevExtremeFileUploaderDemo.Controllers
       }
     }
 
-    internal void AppendContentToFile(string tempFilePath, IFormFile content)
+    internal void AppendContentToFile(string tempFile, IFormFile content)
     {
-      using (var stream = new FileStream(tempFilePath, FileMode.Append, FileAccess.Write))
+      using (var stream = new FileStream(tempFile, FileMode.Append, FileAccess.Write))
       {
         content.CopyTo(stream);
         CheckMaxFileSize(stream);
       }
     }
 
-    internal void ProcessUploadedFile(string tempFilePath, string fileName)
+    internal void ProcessUploadedFile(string tempFile, string fileName)
     {
-      System.IO.File.Copy(tempFilePath, fileName);
+      System.IO.File.Copy(tempFile, fileName, true);
+      System.IO.File.Delete(tempFile);
     }
 
     void CheckMaxFileSize(FileStream stream)

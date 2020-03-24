@@ -2,23 +2,21 @@
   <MonoDevelop.Ide.ItemProperties.DevExtremeFileUploaderDemo PreferredExecutionTarget="/Applications/Safari.app" />
   <MonoDevelop.Ide.Workbench ActiveDocument="DevExtremeFileUploaderDemo/Controllers/DocumentosController.cs">
     <Files>
-      <File FileName="DevExtremeFileUploaderDemo/Controllers/DocumentosController.cs" Line="75" Column="49" />
+      <File FileName="DevExtremeFileUploaderDemo/Controllers/DocumentosController.cs" Line="70" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="DevExtremeFileUploaderDemo" expanded="True">
             <Node name="DevExtremeFileUploaderDemo" expanded="True">
-              <Node name="Controllers" expanded="True">
-                <Node name="DocumentosController.cs" selected="True" />
-              </Node>
+              <Node name="Controllers" expanded="True" selected="True" />
             </Node>
           </Node>
         </State>
       </Pad>
       <Pad Id="MonoDevelop.Debugger.WatchPad">
         <State>
-          <Value>jresult</Value>
+          <Value>metaDataObject</Value>
         </State>
       </Pad>
     </Pads>
@@ -26,9 +24,7 @@
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/Users/homerokzam/Projects/DevExtreme/devextreme-fileuploader/DevExtremeFileUploaderDemo/Controllers/DocumentosController.cs" relfile="DevExtremeFileUploaderDemo/Controllers/DocumentosController.cs" line="71" column="1" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
 </Properties>

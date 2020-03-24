@@ -72,42 +72,53 @@ const Home = (props) => {
     SetEmpresaId(e.value);
   }
 
+  const getNextSegmentSize = (bytesLoaded, bytesTotal) => {
+    const restSize = bytesTotal - bytesLoaded;
+    return restSize > chunkSize ? chunkSize : restSize;
+  }
+
   const handleOnValueChanged = (e) => {
-    console.log("handleOnValueChanged", e);
+    //console.log("handleOnValueChanged", e);
     if (e.value.length > 0) {
-      const file = e.value[0];
-      if (file.size < ChunkSizeDefault)
-        SetChunkSize(file.size - 1024);
+        const file = e.value[0];
+        if (file.size < ChunkSizeDefault)
+          SetChunkSize(file.size - 1024);
+
+        const chunk = {
+            filename: file.name,
+            segmentSize: getNextSegmentSize(0, file.size),
+            bytesLoaded: 0,
+            bytesTotal: file.size
+        };
+        setUploadUrl(getUploadUrl(empresaId, chunk));
+        setChunks(chunk);
     }
   }
 
   const handleOnUploadStarted = (e) => {
-    console.log("handleOnUploadStarted", e);
+    //console.log("handleOnUploadStarted", e);
     // window.temp1 = refFileUploader;
-
-    const chunk = {};
-    setUploadUrl(getUploadUrl(empresaId, chunk));
-    setChunks(chunk);
   }
 
   const handleOnProgress = (e) => {
-    console.log("handleOnProgress", e);
+    //console.log("handleOnProgress", e);
 
     const chunk = {
       filename: e.file.name,
-      segmentSize: e.segmentSize,
+      segmentSize: getNextSegmentSize(e.bytesLoaded, e.bytesTotal),
       bytesLoaded: e.bytesLoaded,
       bytesTotal: e.bytesTotal
     };
     setUploadUrl(getUploadUrl(empresaId, chunk));
-    setChunks(chunk);
+    //console.log("handleOnProgress", chunk);
   }
 
   const handleOnUploaded = (e) => {
-    console.log("handleOnUploaded", e);
-    const dados = e.request.responseText;
+    //console.log("handleOnUploaded", e);
+    const dados = JSON.parse(e.request.response);
+    //console.log(dados);
 
-    dataSource.push([{ type: "insert", data: {dados} }]);
+    dataSource.push([{ type: "insert", data: dados }]);
     refDataGrid.current.instance.refresh();
 
     SetChunkSize(ChunkSizeDefault);
